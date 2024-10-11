@@ -7,7 +7,7 @@ import { useTheme } from "@/components/Theme/theme-provider"
 export function NavbarDemo() {
     return (
         <div className="relative w-full flex items-center justify-center">
-            <Navbar className="top-2" />
+            <Navbar className="mt-5 w-4/5 md:w-full" />
         </div>
     );
 }

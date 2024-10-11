@@ -1,10 +1,10 @@
-import { NavbarDemo } from '@/components/Navbar/Navbar'
-import { ThemeProvider } from "@/components/Theme/theme-provider"
+import Landing from "./pages/Landing"
+import { ThemeProvider } from '@/components/Theme/theme-provider'
 
 const App = () => {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <NavbarDemo />
+     <Landing />
     </ThemeProvider>
   )
 }
