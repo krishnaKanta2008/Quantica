@@ -1,10 +1,30 @@
 from flask import Flask
-import CORS
+from flask_cors import CORS
+from pymongo import MongoClient
+from routes import auth_routes 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 
-cors = CORS(app)
+# CORS configuration
+CORS(app, supports_credentials=True, resources={
+    r"/*": {
+        "origins": ["http://localhost:5173"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
+
+client = MongoClient(os.getenv('MONGODB_URI'))
+db = client['your_database_name']  
+app.register_blueprint(auth_routes)  
 
 @app.route('/')
-def hello():
-    return "hello world"
+def welcome():
+    return "Welcome to the Quantica server!"
+
+if __name__ == '__main__':
+    app.run(debug=True)
