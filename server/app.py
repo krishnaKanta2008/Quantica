@@ -13,7 +13,7 @@ app = Flask(__name__)
 # CORS configuration
 CORS(app, supports_credentials=True, resources={
     r"/*": {
-        "origins": ["http://localhost:5173"],
+        "origins": ["http://localhost:5173","https://quantica-v1.vercel.app"],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }

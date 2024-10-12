@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = MongoClient(os.getenv('MONGODB_URI'))
-db = client['your_database_name']  # This can be removed if the database name is included in the URI
+db = client['quantica']  # This can be removed if the database name is included in the URI
 
 class User:
     @staticmethod
