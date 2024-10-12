@@ -2,7 +2,8 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 
 export function Features() {
     return (
-        <div className="max-w-5xl mx-auto px-8 mt-">
+        <div className="max-w-5xl mx-auto px-8 mt-12">
+            <h1 className="text-3xl font-bold text-center">Features</h1>
             <HoverEffect items={projects} />
         </div>
     );
