@@ -3,6 +3,7 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from routes import auth_routes 
 from dotenv import load_dotenv
+import gunicorn
 import os
 
 load_dotenv()
@@ -27,4 +28,4 @@ def welcome():
     return "Welcome to the Quantica server!"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
