@@ -8,7 +8,7 @@ import {
     Menu,
     Mic,
     Package,
-    Package2,
+    // Package2,
     Paperclip,
     Rabbit,
     // Search,
@@ -126,8 +126,7 @@ export default function Chat() {
                                     href="#"
                                     className="flex items-center gap-2 text-lg font-semibold"
                                 >
-                                    <Package2 className="h-6 w-6" />
-                                    <span className="">Acme Inc</span>
+                                    <span className="">Quantica</span>
                                 </a>
                                 <a
                                     href="#"
