@@ -1,8 +1,8 @@
 const CALLBACK_URL = "https://quantica-v1.vercel.app";  
-const GITHUB_CLIENTID = import.meta.env.VITE_GITHUB_CLIENTID;
+// const GITHUB_CLIENTID = import.meta.env.VITE_GITHUB_CLIENTID;
 
 export const loginWithGithub = async () => {
-    const clientId = GITHUB_CLIENTID;
+    const clientId = "Iv23liaxH9BTc9CvGQFr";
     const redirectUri = `${CALLBACK_URL}/home`; 
 
     const githubUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user`;
