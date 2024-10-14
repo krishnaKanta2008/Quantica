@@ -28,3 +28,15 @@ class User:
     @staticmethod
     def find_by_username(username):
         return db.users.find_one({"username": username})
+    
+    @staticmethod
+    def save_chat_history(username, chat_history):
+        db.users.update_one(
+            {"username": username},
+            {"$set": {"chat_history": chat_history}}
+        )
+
+    @staticmethod
+    def get_chat_history(username):
+        user = db.users.find_one({"username": username})
+        return user.get("chat_history", []) if user else []

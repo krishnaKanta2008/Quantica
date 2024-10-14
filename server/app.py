@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from pymongo import MongoClient
-from routes import auth_routes 
+from routes import auth_routes, model_routes
 from dotenv import load_dotenv
 import gunicorn
 import os
@@ -20,7 +20,8 @@ CORS(app, supports_credentials=True, resources={
 
 client = MongoClient(os.getenv('MONGODB_URI'))
 db = client['quantica']  
-app.register_blueprint(auth_routes)  
+app.register_blueprint(auth_routes)
+app.register_blueprint(model_routes)    
 
 @app.route('/')
 def welcome():
