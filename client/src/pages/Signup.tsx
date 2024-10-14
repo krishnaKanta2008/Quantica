@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -21,6 +21,13 @@ export default function Signup() {
         email: "",
         password: "",
     });
+
+    useEffect(() => {
+        const storedUsername = localStorage.getItem('username');
+        if (storedUsername && storedUsername.trim() !== '') {
+            navigate('/home');
+        }
+    }, [navigate]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;

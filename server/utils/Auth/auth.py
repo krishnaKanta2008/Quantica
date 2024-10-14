@@ -68,6 +68,7 @@ def signin_handler():
     user = User.find_by_username(data['username'])
     if user and check_password_hash(user['password'], data['password']):
         user['_id'] = str(user['_id']) 
+        user['chat_history'] = User.get_chat_history(data['username']) 
         return jsonify({"message": "Signin successful", "user": user}), 200
 
     return jsonify({"message": "Invalid credentials"}), 401

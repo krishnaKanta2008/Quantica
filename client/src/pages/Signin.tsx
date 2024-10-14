@@ -30,18 +30,21 @@ export default function Signin() {
 
             if (response.ok) {
                 const data = await response.json();
-                toast.success("Signin Successfull",{
+                // Store the username in localStorage
+                localStorage.setItem('username', data.user.username);
+                
+                toast.success("Signin Successful", {
                     description: `Welcome, ${data.user.username}`
                 });
                 navigate("/home");
             } else {
                 const errorData = await response.json();
-                toast.error("Signin failed",{
+                toast.error("Signin failed", {
                     description: errorData.message || "Signin failed.",
                 });
             }
         } catch (error) {
-            toast.error("Signin failed",{
+            toast.error("Signin failed", {
                 description: `Something went wrong. Please try again. ${error}`
             });
         }

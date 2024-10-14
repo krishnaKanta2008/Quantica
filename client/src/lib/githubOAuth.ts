@@ -37,5 +37,6 @@ export const checkSession = () => {
 
 export const logout = () => {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('username');
     window.location.href = '/'; 
 };
