@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     CornerDownLeft,
     Mic,
     Paperclip,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
     Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+    CardContent
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip"
-import Sidebar from "../Sidebar/Sidebar"
-import MobileSidebar from "../MobileSidebar/MobileSidebar"
-
-// Define types for chat messages
+} from "@/components/ui/tooltip";
+import Sidebar from "../Sidebar/Sidebar";
+import MobileSidebar from "../MobileSidebar/MobileSidebar";
+import Typewriter from 'typewriter-effect';
+import ReactMarkdown from 'react-markdown';
 interface ChatMessage {
     role: 'user' | 'model';
     message: string;
@@ -34,19 +32,18 @@ export default function Chat() {
     const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
     const [message, setMessage] = useState<string>('');
     const [username, setUsername] = useState<string>('');
+    const [isNewMessage, setIsNewMessage] = useState<boolean>(false);
+    const [isTypingFinished, setIsTypingFinished] = useState<boolean>(false);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Retrieve username from localStorage
         const storedUsername = localStorage.getItem('username');
         if (storedUsername) {
             setUsername(storedUsername);
         } else {
-            // Handle case where username is not found (e.g., redirect to login)
             console.error('Username not found in localStorage');
-            // You might want to redirect to the login page here
         }
 
-        // Fetch chat history from the server
         const fetchChatHistory = async () => {
             if (!storedUsername) return;
             try {
@@ -54,6 +51,7 @@ export default function Chat() {
                 if (response.ok) {
                     const data = await response.json();
                     setChatHistory(data.chat_history);
+                    setIsNewMessage(false); // No typewriter effect for previously loaded messages
                 } else {
                     console.error('Failed to fetch chat history');
                 }
@@ -65,11 +63,16 @@ export default function Chat() {
         fetchChatHistory();
     }, []);
 
+    useEffect(() => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    }, [chatHistory]);
+
     const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!message || !username) return;
 
-        // Send message to the server
         const response = await fetch(`${BACKEND_URL}/query`, {
             method: 'POST',
             headers: {
@@ -80,43 +83,52 @@ export default function Chat() {
 
         const data = await response.json();
         if (response.ok) {
-            // Update chat history
             const newChat: ChatMessage[] = [...chatHistory, { role: 'user', message }, { role: 'model', message: data.solution }];
             setChatHistory(newChat);
-            setMessage(''); // Clear input
+            setMessage('');
+            setIsNewMessage(true); 
         } else {
             console.error(data.error);
         }
     };
 
-
     return (
         <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
             <Sidebar />
-            <div className="flex flex-col">
+            <div className="flex flex-col h-screen">
                 <MobileSidebar />
-                <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8">
-                    <Card className="flex-1">
-                        <CardHeader>
-                            <CardTitle>Chat</CardTitle>
-                        </CardHeader>
-                        <CardContent className="h-96 overflow-y-auto">
+                <main className="flex-1 flex flex-col gap-4 p-4 md:gap-8">
+                    <Card className="flex flex-col flex-1 h-full">
+                       
+                        <CardContent className="h-96 overflow-y-auto" ref={chatContainerRef}>
                             <div className="space-y-4">
                                 {chatHistory.map((chat, index) => (
                                     <div key={index} className={`flex gap-3 ${chat.role === 'user' ? 'justify-end' : ''}`}>
-                                        <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
-                                            <img
-                                                className="aspect-square h-full w-full"
-                                                alt={chat.role === 'user' ? 'User' : 'AI'}
-                                                src="/placeholder.svg?height=32&width=32"
-                                                width={32}
-                                                height={32}
-                                            />
-                                        </span>
+                                       
                                         <div className="grid gap-1.5">
-                                            <div className="text-sm font-medium">{chat.role === 'user' ? 'You' : 'AI Assistant'}</div>
+                                            <div className="text-sm font-medium">{chat.role === 'user' ? '' : 'Quantica'}</div>
                                             <div className="text-sm text-muted-foreground">
-                                                {chat.message}
+                                                {chat.role === 'model' && isNewMessage && index === chatHistory.length - 1 ? (
+                                                    !isTypingFinished ? (  // Only show the typewriter if it's not finished
+                                                        <Typewriter
+                                                            onInit={(typewriter) => {
+                                                                typewriter.typeString(chat.message)
+                                                                    .callFunction(() => {
+                                                                        setIsTypingFinished(true);  // Mark typing as finished
+                                                                    })
+                                                                    .pauseFor(500)
+                                                                    .start();
+                                                            }}
+                                                            options={{
+                                                                delay: 2,
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <ReactMarkdown>{chat.message}</ReactMarkdown>  // Render Markdown after typewriter finishes
+                                                    )
+                                                ) : (
+                                                    <ReactMarkdown>{chat.message}</ReactMarkdown>  // Render old messages directly as Markdown
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -130,9 +142,7 @@ export default function Chat() {
                         className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring flex-1"
                         onSubmit={handleSendMessage}
                     >
-                        <Label htmlFor="message" className="sr-only">
-                            Message
-                        </Label>
+                        <Label htmlFor="message" className="sr-only">Message</Label>
                         <Textarea
                             id="message"
                             value={message}
