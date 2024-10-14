@@ -28,7 +28,7 @@ interface ChatMessage {
     message: string;
 }
 
-
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 export default function Chat() {
     const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -50,7 +50,7 @@ export default function Chat() {
         const fetchChatHistory = async () => {
             if (!storedUsername) return;
             try {
-                const response = await fetch(`http://localhost:5000/chat_history?username=${storedUsername}`);
+                const response = await fetch(`${BACKEND_URL}/chat_history?username=${storedUsername}`);
                 if (response.ok) {
                     const data = await response.json();
                     setChatHistory(data.chat_history);
@@ -70,7 +70,7 @@ export default function Chat() {
         if (!message || !username) return;
 
         // Send message to the server
-        const response = await fetch('http://localhost:5000/query', {
+        const response = await fetch(`${BACKEND_URL}/query`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
