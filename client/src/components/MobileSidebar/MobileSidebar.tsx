@@ -1,12 +1,12 @@
 import {
-    Bird,
+    // Bird,
     CircleUser,
     Home,
     LineChart,
     Menu,
-    Rabbit,
-    Settings,
-    Turtle
+    // Rabbit,
+    // Settings,
+    // Turtle
 } from "lucide-react"
 import {
     DropdownMenu,
@@ -19,21 +19,22 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { logout } from "@/lib/githubOAuth"
 import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
+import { ModeToggle } from "@/components/Theme/mode-toggle"
+// import {
+//     Card,
+//     CardContent,
+//     CardHeader,
+//     CardTitle,
+// } from "@/components/ui/card"
+// import {
+//     Select,
+//     SelectContent,
+//     SelectItem,
+//     SelectTrigger,
+//     SelectValue,
+// } from "@/components/ui/select"
+// import { Label } from "@/components/ui/label"
+// import { Input } from "@/components/ui/input"
 
 const MobileSidebar = () => {
   return (
@@ -66,7 +67,7 @@ const MobileSidebar = () => {
                       </a>
                       <a
                           href="/plot"
-                          className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+                          className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                       >
                           <LineChart className="h-5 w-5" />
                           f(x) Plotter
@@ -87,7 +88,7 @@ const MobileSidebar = () => {
                             </div>
                         </form> */}
           </div>
-          <Sheet>
+          {/* <Sheet>
               <SheetTrigger asChild>
                   <Button
                       variant="outline"
@@ -151,8 +152,9 @@ const MobileSidebar = () => {
                       </CardContent>
                   </Card>
               </SheetContent>
-          </Sheet>
+          </Sheet> */}
           <DropdownMenu>
+            <ModeToggle />
               <DropdownMenuTrigger asChild>
                   <Button variant="secondary" size="icon" className="rounded-full">
                       <CircleUser className="h-5 w-5" />
