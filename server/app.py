@@ -20,6 +20,7 @@ CORS(app, supports_credentials=True, resources={
 
 client = MongoClient(os.getenv('MONGODB_URI'))
 db = client['quantica']  
+
 app.register_blueprint(auth_routes)
 app.register_blueprint(model_routes)    
 
