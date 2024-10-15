@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import MobileSidebar from "@/components/MobileSidebar/MobileSidebar";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
@@ -15,7 +15,7 @@ interface User {
   bio: string;
 }
 
-export default function Profile() {
+export default function Component() {
   const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
@@ -76,12 +76,22 @@ export default function Profile() {
                 <div className="text-sm text-muted-foreground">
                   {userData?.email}
                 </div>
-                <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent h-[2px] w-full" />
-                <div className="text-sm text-muted-foreground">
-                  {userData?.bio}
-                </div>
               </div>
             </CardHeader>
+            <div className="px-6">
+              <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent h-[2px] w-full mb-6" />
+              <CardContent>
+                <div className="text-center">
+                  {userData?.bio ? (
+                    <p className="text-sm text-muted-foreground border border-neutral-200 dark:border-neutral-700 rounded-md p-4 bg-neutral-50 dark:bg-neutral-900">
+                      {userData.bio}
+                    </p>
+                  ) : (
+                    <Skeleton className="w-full h-20 mx-auto" />
+                  )}
+                </div>
+              </CardContent>
+            </div>
           </Card>
         </div>
       </div>
