@@ -10,39 +10,35 @@ export function Features() {
 }
 export const projects = [
     {
-        title: "Stripe",
+        title: "Chat with AI",
         description:
-            "A technology company that builds economic infrastructure for the internet.",
-        link: "https://stripe.com",
+            "A mathematics expert chatbot providing step-by-step solutions to math problems with detailed explanations and interactive chat features.",
+        link: "home",
     },
     {
-        title: "Netflix",
+        title: "Function Plotter",
         description:
-            "A streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.",
-        link: "https://netflix.com",
+            "An interactive tool for plotting mathematical functions, allowing users to visualize and analyze graphs with ease.",
+        link: "plot",
     },
     {
-        title: "Google",
+        title: "User Profile Management",
         description:
-            "A multinational technology company that specializes in Internet-related services and products.",
-        link: "https://google.com",
+            "User Profile Management allows users to create, view, edit, and delete their profiles. It includes functionalities like updating personal information, profile pictures, and managing privacy settings.",
     },
     {
         title: "Meta",
         description:
             "A technology company that focuses on building products that advance Facebook's mission of bringing the world closer together.",
-        link: "https://meta.com",
     },
     {
         title: "Amazon",
         description:
             "A multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
-        link: "https://amazon.com",
     },
     {
         title: "Microsoft",
         description:
             "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
-        link: "https://microsoft.com",
     },
 ];
