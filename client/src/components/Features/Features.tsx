@@ -1,5 +1,6 @@
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 
+
 export function Features() {
     return (
         <div className="max-w-5xl mx-auto px-8 mt-12">
@@ -41,4 +42,7 @@ export const projects = [
         description:
             "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
     },
-];
+].map(project => ({
+    ...project,
+    link: project.link || "https://quantica-v1.vercel.app" 
+}));
