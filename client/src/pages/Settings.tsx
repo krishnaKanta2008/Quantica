@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "sonner"
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
@@ -108,8 +109,10 @@ export default function Settings() {
 
             const responseData = await response.json()
             console.log("Profile updated successfully", responseData)
+            toast.success('Profile updated successfully')
         } catch (error) {
             console.error("Error updating profile", error)
+            toast.error('Error updating profile')
         }
     }
 
