@@ -96,25 +96,25 @@ export default function Chat() {
         <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
             <Sidebar />
             <div className="flex flex-col h-screen">
-                <MobileSidebar />
-                <main className="flex-1 flex flex-col gap-4 p-4 md:gap-8">
-                    <Card className="flex flex-col flex-1 h-full">
-                       
-                        <CardContent className="h-96 overflow-y-auto" ref={chatContainerRef}>
+                <header className="sticky top-0 z-10 bg-background border-b">
+                    <MobileSidebar />
+                </header>
+                <main className="flex flex-col flex-grow p-4 overflow-hidden">
+                    <Card className="flex flex-col flex-grow overflow-hidden">
+                        <CardContent className="flex-grow overflow-y-auto p-4" ref={chatContainerRef}>
                             <div className="space-y-4">
                                 {chatHistory.map((chat, index) => (
                                     <div key={index} className={`flex gap-3 ${chat.role === 'user' ? 'justify-end' : ''}`}>
-                                       
                                         <div className="grid gap-1.5">
                                             <div className="text-sm font-medium">{chat.role === 'user' ? '' : 'Quantica'}</div>
                                             <div className="text-sm text-muted-foreground">
                                                 {chat.role === 'model' && isNewMessage && index === chatHistory.length - 1 ? (
-                                                    !isTypingFinished ? (  // Only show the typewriter if it's not finished
+                                                    !isTypingFinished ? (
                                                         <Typewriter
                                                             onInit={(typewriter) => {
                                                                 typewriter.typeString(chat.message)
                                                                     .callFunction(() => {
-                                                                        setIsTypingFinished(true);  // Mark typing as finished
+                                                                        setIsTypingFinished(true);
                                                                     })
                                                                     .pauseFor(500)
                                                                     .start();
@@ -124,10 +124,10 @@ export default function Chat() {
                                                             }}
                                                         />
                                                     ) : (
-                                                        <ReactMarkdown>{chat.message}</ReactMarkdown>  // Render Markdown after typewriter finishes
+                                                        <ReactMarkdown>{chat.message}</ReactMarkdown>
                                                     )
                                                 ) : (
-                                                    <ReactMarkdown>{chat.message}</ReactMarkdown>  // Render old messages directly as Markdown
+                                                    <ReactMarkdown>{chat.message}</ReactMarkdown>
                                                 )}
                                             </div>
                                         </div>
@@ -137,9 +137,9 @@ export default function Chat() {
                         </CardContent>
                     </Card>
                 </main>
-                <div className="flex items-center gap-2 p-4">
+                <div className="p-4">
                     <form
-                        className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring flex-1"
+                        className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring"
                         onSubmit={handleSendMessage}
                     >
                         <Label htmlFor="message" className="sr-only">Message</Label>

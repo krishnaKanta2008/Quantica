@@ -15,7 +15,9 @@ class User:
             "lastname": data['lastname'],
             "username": data['username'],
             "email": data['email'],
-            "password": data['password'] 
+            "password": data['password'],
+            "bio": data.get('bio', ''),
+            "image": data.get('image', '')
         }
         db.users.insert_one(user_data)
         return user_data
@@ -30,6 +32,10 @@ class User:
         return db.users.find_one({"username": username})
     
     @staticmethod
+    def find_username_profile(username):
+        return db.users.find_one({"username": username})
+    
+    @staticmethod
     def save_chat_history(username, chat_history):
         db.users.update_one(
             {"username": username},
@@ -40,3 +46,18 @@ class User:
     def get_chat_history(username):
         user = db.users.find_one({"username": username})
         return user.get("chat_history", []) if user else []
+    
+    @staticmethod
+    def update_user_settings(username, data):
+        update_data = {
+            "firstname": data.get('firstname'),
+            "lastname": data.get('lastname'),
+            "email": data.get('email'),
+            "bio": data.get('bio', ''),
+            "image": data.get('image', '')
+        }
+        db.users.update_one(
+            {"username": username},
+            {"$set": update_data}
+        )
+        return db.users.find_one({"username": username})

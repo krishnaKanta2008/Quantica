@@ -1,12 +1,8 @@
 import {
-    // Bird,
     CircleUser,
     Home,
     LineChart,
     Menu,
-    // Rabbit,
-    // Settings,
-    // Turtle
 } from "lucide-react"
 import {
     DropdownMenu,
@@ -20,23 +16,44 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { logout } from "@/lib/githubOAuth"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/Theme/mode-toggle"
-// import {
-//     Card,
-//     CardContent,
-//     CardHeader,
-//     CardTitle,
-// } from "@/components/ui/card"
-// import {
-//     Select,
-//     SelectContent,
-//     SelectItem,
-//     SelectTrigger,
-//     SelectValue,
-// } from "@/components/ui/select"
-// import { Label } from "@/components/ui/label"
-// import { Input } from "@/components/ui/input"
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react"
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 const MobileSidebar = () => {
+    const [userImage, setUserImage] = useState<string | null>(null)
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const username = localStorage.getItem('username')
+                if (!username) {
+                    throw new Error('Username not found in localStorage')
+                }
+
+                const response = await fetch(`${BACKEND_URL}/profile/${username}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok')
+                }
+
+                const responseData = await response.json()
+                setUserImage(responseData.user.image || null)
+            } catch (error) {
+                console.error("Error fetching user data", error)
+            }
+        }
+
+        fetchUserData()
+    }, [])
+
   return (
       < header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6" >
           <Sheet>
@@ -77,95 +94,37 @@ const MobileSidebar = () => {
               </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-              {/* <form>
-                            <div className="relative">
-                                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                                <Input
-                                    type="search"
-                                    placeholder="Search chats..."
-                                    className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-                                />
-                            </div>
-                        </form> */}
           </div>
-          {/* <Sheet>
-              <SheetTrigger asChild>
-                  <Button
-                      variant="outline"
-                      size="icon"
-                      className="shrink-0 md:hidden"
-                  >
-                      <Settings className="h-5 w-5" />
-                      <span className="sr-only">Open settings</span>
-                  </Button>
-              </SheetTrigger>
-              <SheetContent>
-                  <Card>
-                      <CardHeader>
-                          <CardTitle>Configuration</CardTitle>
-                      </CardHeader>
-                      <CardContent className="grid gap-4">
-                          <div className="grid gap-2">
-                              <Label htmlFor="model">Model</Label>
-                              <Select defaultValue="genesis">
-                                  <SelectTrigger id="model">
-                                      <SelectValue placeholder="Select a model" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                      <SelectItem value="genesis">
-                                          <div className="flex items-center gap-2">
-                                              <Rabbit className="h-4 w-4" />
-                                              <span>Neural Genesis</span>
-                                          </div>
-                                      </SelectItem>
-                                      <SelectItem value="explorer">
-                                          <div className="flex items-center gap-2">
-                                              <Bird className="h-4 w-4" />
-                                              <span>Neural Explorer</span>
-                                          </div>
-                                      </SelectItem>
-                                      <SelectItem value="quantum">
-                                          <div className="flex items-center gap-2">
-                                              <Turtle className="h-4 w-4" />
-                                              <span>Neural Quantum</span>
-                                          </div>
-                                      </SelectItem>
-                                  </SelectContent>
-                              </Select>
-                          </div>
-                          <div className="grid gap-2">
-                              <Label htmlFor="temperature">Temperature</Label>
-                              <Input
-                                  id="temperature"
-                                  placeholder="Enter temperature"
-                                  type="number"
-                              />
-                          </div>
-                          <div className="grid gap-2">
-                              <Label htmlFor="max-tokens">Max Tokens</Label>
-                              <Input
-                                  id="max-tokens"
-                                  placeholder="Enter max tokens"
-                                  type="number"
-                              />
-                          </div>
-                      </CardContent>
-                  </Card>
-              </SheetContent>
-          </Sheet> */}
           <DropdownMenu>
             <ModeToggle />
               <DropdownMenuTrigger asChild>
                   <Button variant="secondary" size="icon" className="rounded-full">
-                      <CircleUser className="h-5 w-5" />
+                      {userImage ? (
+                          <img
+                              src={userImage}
+                              alt="User Profile"
+                              className="h-5 w-5 rounded-full"
+                          />
+                      ) : (
+                          <CircleUser className="h-5 w-5" />
+                      )}
                       <span className="sr-only">Toggle user menu</span>
                   </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
-                  <DropdownMenuItem>Support</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {
+                      const username = localStorage.getItem('username');
+                      if (username) {
+                          navigate(`/profile/${username}`);
+                      } else {
+                          console.error('Username not found in localStorage');
+                      }
+                  }}>
+                      Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={()=>{navigate('/settings')}}>Settings</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
               </DropdownMenuContent>

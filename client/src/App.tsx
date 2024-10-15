@@ -6,6 +6,8 @@ import { Toaster } from "@/components/ui/sonner"
 import Signin from "./pages/Signin";
 import Home from "./pages/Home"
 import Plot from "./pages/Plot"
+import Profile from "./components/Profile/Profile";
+import Settings from "./pages/Settings";
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
         <Route path="/signin" element={<Signin/>} /> 
         <Route path="/home" element={<Home />} /> 
         <Route path="/plot" element={<Plot />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/profile/:username" element={<Profile />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
       <Toaster />

@@ -1,5 +1,6 @@
 const CALLBACK_URL = "https://quantica-v1.vercel.app";  
-// const GITHUB_CLIENTID = import.meta.env.VITE_GITHUB_CLIENTID;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
 
 export const loginWithGithub = async () => {
     const clientId = "Iv23liaxH9BTc9CvGQFr";
@@ -15,7 +16,7 @@ export const handleGitHubCallback = async () => {
     const code = query.get('code');
 
     if (code) {
-        const response = await fetch('http://localhost:5000/api/github/callback', {
+        const response = await fetch(`${BACKEND_URL}/api/github/callback`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ export const handleGitHubCallback = async () => {
 
         // Store access_token in localStorage
         localStorage.setItem('access_token', data.access_token);
-        window.location.href = '/';  // Redirect after login
+        window.location.href = '/'; 
     }
 };
 
