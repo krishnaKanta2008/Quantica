@@ -22,10 +22,10 @@ function Navbar({ className }: { className?: string }) {
             <Menu setActive={setActive}>
                 <MenuItem setActive={setActive} active={active} item="Services">
                     <div className="flex flex-col space-y-4 text-sm">
-                        <HoveredLink href="/web-dev">Web Development</HoveredLink>
-                        <HoveredLink href="/interface-design">Interface Design</HoveredLink>
-                        <HoveredLink href="/seo">Search Engine Optimization</HoveredLink>
-                        <HoveredLink href="/branding">Branding</HoveredLink>
+                        <a href="/home">Chat with AI</a>
+                        <a href="/plot">Function Plotter</a>
+                        <a href="/">Docs</a>
+                        <a href="/">World Chat</a>
                     </div>
                 </MenuItem>
                 <MenuItem setActive={setActive} active={active} item="Products">
