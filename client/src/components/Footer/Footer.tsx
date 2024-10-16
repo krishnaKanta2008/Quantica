@@ -104,7 +104,7 @@ const Footer = () => {
                           </a>
                          
                           <a
-                              href="#"
+                              href="https://github.com/krishnaKanta2008/Quantica"
                               className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5"
                           >
                               <svg
