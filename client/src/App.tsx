@@ -8,6 +8,7 @@ import Home from "./pages/Home"
 import Plot from "./pages/Plot"
 import Profile from "./components/Profile/Profile";
 import Settings from "./pages/Settings";
+import PrivacyPolicy from "./pages/Privacypolicy";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/plot" element={<Plot />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
       <Toaster />
