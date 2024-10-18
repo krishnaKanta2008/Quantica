@@ -23,7 +23,12 @@ export default function ComingSoon() {
         <>
             <div className="min-h-screen bg-gradient-to-b from-primary/20 to-background flex flex-col items-center justify-center p-4">
                 <div className="max-w-md w-full space-y-8 text-center">
-                    <h1 className="text-4xl font-bold text-primary">Quantica</h1>
+                    <h1 
+                        className="text-4xl font-bold text-primary cursor-pointer" 
+                        onClick={() => window.location.href = '/'}
+                    >
+                        Quantica
+                    </h1>
                     <h2 className="text-2xl font-semibold">Coming Soon</h2>
                     <p className="text-muted-foreground">
                         We're working hard to bring you something amazing. Sign up to be notified when we launch!
