@@ -24,8 +24,8 @@ function Navbar({ className }: { className?: string }) {
                     <div className="flex flex-col space-y-4 text-sm">
                         <a href="/home">Chat with AI</a>
                         <a href="/plot">Function Plotter</a>
-                        <a href="/">Docs</a>
-                        <a href="/">World Chat</a>
+                        <a href="/docs">Docs</a>
+                        <a href="/worldchat">World Chat</a>
                     </div>
                 </MenuItem>
                 <MenuItem setActive={setActive} active={active} item="Products">

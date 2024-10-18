@@ -6,10 +6,10 @@ import Video from '@/components/Video/Video';
 import Footer from '@/components/Footer/Footer';
 
 const Landing = () => {
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate(); 
 
     const handleSignupClick = () => {
-        navigate('/signup'); // Redirect to the signup page
+        navigate('/signup'); 
     };
 
     return (
