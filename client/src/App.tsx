@@ -11,6 +11,7 @@ import Settings from "./pages/Settings";
 import PrivacyPolicy from "./pages/Privacypolicy";
 import Docs from "./pages/Docs";
 import WorldChat from "./pages/WorldChat";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
       <Toaster />
