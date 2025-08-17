@@ -28,5 +28,5 @@ app.register_blueprint(model_routes)
 def welcome():
     return "Welcome to the Quantica server!"
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', debug=True)
