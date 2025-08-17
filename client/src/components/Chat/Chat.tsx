@@ -1,26 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-    CornerDownLeft,
-    Mic,
-    Paperclip,
-} from "lucide-react";
+import { CornerDownLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
 import Sidebar from "../Sidebar/Sidebar";
 import MobileSidebar from "../MobileSidebar/MobileSidebar";
 import Typewriter from 'typewriter-effect';
 import ReactMarkdown from 'react-markdown';
+
 interface ChatMessage {
     role: 'user' | 'model';
     message: string;
@@ -34,6 +22,7 @@ export default function Chat() {
     const [username, setUsername] = useState<string>('');
     const [isNewMessage, setIsNewMessage] = useState<boolean>(false);
     const [isTypingFinished, setIsTypingFinished] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -71,7 +60,9 @@ export default function Chat() {
 
     const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!message || !username) return;
+        if (!message || !username || loading) return; // Prevent sending new message when loading
+
+        setLoading(true); // Set loading state to true when the request starts
 
         const response = await fetch(`${BACKEND_URL}/query`, {
             method: 'POST',
@@ -86,10 +77,11 @@ export default function Chat() {
             const newChat: ChatMessage[] = [...chatHistory, { role: 'user', message }, { role: 'model', message: data.solution }];
             setChatHistory(newChat);
             setMessage('');
-            setIsNewMessage(true); 
+            setIsNewMessage(true);
         } else {
             console.error(data.error);
         }
+        setLoading(false); // Set loading state to false once the request completes
     };
 
     return (
@@ -147,14 +139,15 @@ export default function Chat() {
                             id="message"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Type your message here..."
+                            placeholder={loading ? "Loading..." : "Type your message here..."}
                             className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
+                            disabled={loading} // Disable text area while loading
                         />
                         <div className="flex items-center p-3 pt-0">
-                            <TooltipProvider>
+                            {/* <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="icon">
+                                        <Button variant="ghost" size="icon" disabled={loading}>
                                             <Paperclip className="size-4" />
                                             <span className="sr-only">Attach file</span>
                                         </Button>
@@ -165,17 +158,17 @@ export default function Chat() {
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="icon">
+                                        <Button variant="ghost" size="icon" disabled={loading}>
                                             <Mic className="size-4" />
                                             <span className="sr-only">Use Microphone</span>
                                         </Button>
                                     </TooltipTrigger>
                                     <TooltipContent side="top">Use Microphone</TooltipContent>
                                 </Tooltip>
-                            </TooltipProvider>
-                            <Button type="submit" size="sm" className="ml-auto gap-1.5">
-                                Send Message
-                                <CornerDownLeft className="size-3.5" />
+                            </TooltipProvider> */}
+                            <Button type="submit" size="sm" className="ml-auto gap-1.5" disabled={loading}>
+                                {loading ? "Sending..." : "Send Message"}
+                                {!loading && <CornerDownLeft className="size-3.5" />}
                             </Button>
                         </div>
                     </form>
